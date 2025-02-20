@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Página de Login -->
+    <div class="login-container" id="login-container">
+        <h1>Login</h1>
+        <form id="login-form">
+            <div class="input-group">
+                <label for="username">Usuário</label>
+                <input type="text" id="username" name="username" required placeholder="Digite seu usuário">
+            </div>
+
+            <div class="input-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required placeholder="Digite sua senha">
+            </div>
+
+            <button type="submit" class="btn-login">Entrar</button>
+        </form>
+        <p id="error-message" style="color: red; display: none;">Usuário ou senha incorretos!</p>
+    </div>
+
+    <!-- Página Principal -->
+    <div class="main-container" id="main-container" style="display: none;">
+        <div class="navbar">
+            <ul>
+                <li><a href="#" id="disparo">Disparo de E-mails</a></li>
+                <li><a href="#" id="acessar-emails">Acessar E-mails dos Clientes</a></li>
+            </ul>
+        </div>
+
+        <div class="container" id="container-disparo">
+            <h1>Disparo de E-mail</h1>
+            <form action="#" method="post">
+                <div class="input-group">
+                    <label for="destinatario">Destinatário</label>
+                    <input type="email" id="destinatario" name="destinatario" required placeholder="exemplo@dominio.com">
+                </div>
+
+                <div class="input-group">
+                    <label for="assunto">Assunto</label>
+                    <input type="text" id="assunto" name="assunto" required placeholder="Assunto do E-mail">
+                </div>
+
+                <div class="input-group">
+                    <label for="mensagem">Mensagem</label>
+                    <textarea id="mensagem" name="mensagem" rows="6" required placeholder="Digite sua mensagem aqui..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-enviar">Enviar E-mail</button>
+            </form>
+        </div>
+
+        <div class="container" id="container-emails" style="display: none;">
+            <h1>E-mails dos Clientes</h1>
+            <ul class="email-list" id="email-list">
+                <!-- A lista de e-mails será gerada aqui -->
+            </ul>
+            
+            <h2>Adicionar Novo E-mail</h2>
+            <div class="input-group">
+                <label for="novo-email">Novo E-mail</label>
+                <input type="email" id="novo-email" placeholder="novoemail@dominio.com">
+            </div>
+            <button onclick="adicionarEmail()" class="btn-adicionar">Adicionar E-mail</button>
+        </div>
+    </div>
+
+    <script>
+        // Função de login
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio do formulário
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Verifica se o login é válido
+            if (username === 'Tuquis' && password === '123456') {
+                // Oculta a tela de login e exibe a tela principal
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('main-container').style.display = 'block';
+            } else {
+                // Exibe mensagem de erro
+                document.getElementById('error-message').style.display = 'block';
+            }
+        });
+
+        // Lista de e-mails (no JavaScript)
+        let listaEmails = [
+          
+        ];
+
+        // Função para alternar entre as telas
+        document.getElementById('disparo').addEventListener('click', function() {
+            document.getElementById('container-disparo').style.display = 'block';
+            document.getElementById('container-emails').style.display = 'none';
+        });
+
+        document.getElementById('acessar-emails').addEventListener('click', function() {
+            document.getElementById('container-disparo').style.display = 'none';
+            document.getElementById('container-emails').style.display = 'block';
+            exibirEmails(); // Atualiza a lista de e-mails quando acessar a página
+        });
+
+        // Função para exibir os e-mails na lista
+        function exibirEmails() {
+            const listaElement = document.getElementById('email-list');
+            listaElement.innerHTML = ''; // Limpa a lista antes de adicionar os novos e-mails
+            listaEmails.forEach(email => {
+                const li = document.createElement('li');
+                li.textContent = email;
+                listaElement.appendChild(li);
+            });
+        }
+
+        
+        function adicionarEmail() {
+            const novoEmail = document.getElementById('novo-email').value;
+            if (novoEmail && !listaEmails.includes(novoEmail)) {
+                listaEmails.push(novoEmail); 
+                document.getElementById('novo-email').value = ''; 
+                exibirEmails(); 
+            } else {
+                alert('E-mail inválido ou já existente!');
+            }
+        }
+    </script>
+</body>
+</html>
